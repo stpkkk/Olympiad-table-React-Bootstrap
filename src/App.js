@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "../src/index.css";
+import { PlayersForm } from "./components/PlayersForm";
+import Table from "./components/Table";
 
 function App() {
+  const [participants, setParticipants] = useState([]);
+
+  const addParticipant = (participantName) => {
+    if (participantName) {
+      const newParticipant = {
+        id: Math.random().toString(36).substr(2, 9),
+        name: participantName,
+        points: Math.floor(Math.random() * 101),
+      };
+      setParticipants([...participants, newParticipant]);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="container">
+      <header className="header">
+        <h1>Олимпиада</h1>
       </header>
+      <PlayersForm addParticipant={addParticipant} />
+      {participants.length ? <Table participants={participants}></Table> : null}
     </div>
   );
 }
